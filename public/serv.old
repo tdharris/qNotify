@@ -1,0 +1,68 @@
+var sys = require('sys'),
+    http = require('http'),
+    fs = require('fs'),
+    index; 
+    // style;
+ 
+var ipAddress = "151.155.215.104";
+var port = 8080; 
+
+fs.readFile('./index.html', function (err, data) {
+    if (err) {
+        throw err;
+    }
+    index = data;
+});
+
+// fs.readFile('bootstrap/css/bootstrap.css', function (err, data) {
+//     if (err) {
+//         throw err;
+//     }
+//     style = data;
+// });
+
+var server = http.createServer(function(request, response) {
+			    response.writeHeader(200, {"Content-Type": "text/html"});
+			    response.write(index);
+                response.end();
+       //          response.writeHeader(200, {"Content-Type": "text/css"});
+       //          response.write(style)
+			    // response.end();
+			}).listen(port, ipAddress);
+console.log('Server running at http://'+ ipAddress +':'+ port +'/');
+
+// var http = require('http');
+// var fs = require('fs');
+// var path = require('path');
+
+// var serverPort = 8080;
+
+// var server = http.createServer(function(request, response) {
+
+// console.log('request starting ...');
+// var extname = path.extname(request.url);
+// var contentType = 'text/html';
+//     switch (extname) {
+//     case '.js':
+//         contentType = 'text/javascript';
+//         break;
+//     case '.css':
+//         contentType = 'text/css';
+//         break;
+//     }
+
+// fs.readFile('index.html', function(error, content) {
+//     if (error) {
+//         console.log(error);
+//         response.writeHead(500);
+//         response.end();
+//     } else {
+//         console.log(contentType);
+//         response.writeHead(200, {'Content-Type': contentType});
+//         response.end(content,'utf-8');
+//     }
+// });
+// });
+
+// server.listen(serverPort);
+// console.log('Server running at localhost:' + serverPort +"/");

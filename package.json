@@ -1,0 +1,15 @@
+{
+  "name": "qmon-notifies",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.3.4",
+    "setops": "*",
+    "crypto": "*",
+    "mongoose": "~3.6.18",
+    "node-schedule": "~0.1.9"
+  }
+}
