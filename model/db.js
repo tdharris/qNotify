@@ -1,13 +1,28 @@
-var mongoose = require('mongoose');
-
-var dbname = 'qNotify';
-var uri = 'mongodb://localhost/' + dbname;
-console.log('Running mongoose version %s', mongoose.version);
-console.log('connecting to %s', uri);
+	var mongoose = require('mongoose');
+	var logIt = require('../njs/logIt');
+	var dbname = 'qNotify';
+	var uri = 'mongodb://localhost/' + dbname;
+	console.log('Running mongoose version %s', mongoose.version);
+	console.log('connecting to %s', uri);
 
 	// Connect to db
 	var db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
+  
+
+module.exports = {
+  clearCollection : function() {
+	User.collection.remove( function (err) {
+		if (err) throw err;
+		// collection is now empty but not deleted
+	});
+  },
+  otherStuff : function(){
+    // do something ...
+  }
+};
+
+
 	mongoose.connect(uri, function (err) {
   		// if we failed to connect, abort
   			if (err) throw err;
@@ -38,25 +53,35 @@ function example() {
 		});
 	};
 
-	function updateUser(user) {
-		User.findOneAndUpdate({ username: user.username }, { $set: user }, {}, function(err, user) {
-		   	if (err != null) {
-		   		done(err);
-		   	}
-		  	
-		  	else { 
-		  		user.save(function (err, savedUser, numberAffected) {
-					if (err != null) {
-						done(err);
-					}
-						done("User has been updated: " + savedUser, function() {
-						findUser(savedUser);
-					});
-				})
-		  	}
-		})
-	}
+function removeUser(user) {
+	User.remove({username: user.username}, function(err){
+		if(err) throw err;
+		else {
+			logIt("User has been removed: " + user.username);
+			done();
+		} 
+	});
+}
 
+function updateUser(user) {
+	User.findOneAndUpdate({ username: user.username }, { $set: user }, {}, function(err, user) {
+	   	if (err != null) {
+	   		done(err);
+	   	}
+	  	
+	  	else { 
+	  		user.save(function (err, savedUser, numberAffected) {
+				if (err != null) {
+					done(err);
+				}
+
+				logIt("User has been updated: " + savedUser.username);
+				done();
+			})
+	  	}
+	})
+}
+	
 	// createUser({ username: 'tharris', email: 'tharris@novell.com' });
 	// createUser({ username: 'snielson', email: 'snielson@novell.com' });
 
