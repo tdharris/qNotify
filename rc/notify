@@ -1,0 +1,77 @@
+#!/bin/bash
+#/etc/init.d/nodeup
+
+### BEGIN INIT INFO
+# Provides: notify
+# Required-Start: $network
+# Required-Stop: $network
+# Should-Start: haveged auditd
+# Default-Start: 3 5
+# Default-Stop: 0 1 2 6
+# Description: Start the notify daemon
+### END INIT INFO
+
+
+function askYesOrNo {
+	REPLY=""
+	while [ -z "$REPLY" ] ; do
+		read -ep "$1 $YES_NO_PROMPT" REPLY
+		REPLY=$(echo ${REPLY}|tr [:lower:] [:upper:])
+		case $REPLY in
+			$YES_CAPS ) printf '\n'; return 0 ;;
+			$NO_CAPS ) printf '\n'; return 1 ;;
+			* ) REPLY=""
+		esac
+	done
+}
+# Initialize the yes/no prompt
+YES_STRING=$"y"
+NO_STRING=$"n"
+YES_NO_PROMPT=$"[y/n]: "
+YES_CAPS=$(echo ${YES_STRING}|tr [:lower:] [:upper:])
+NO_CAPS=$(echo ${NO_STRING}|tr [:lower:] [:upper:])
+
+export PATH=$PATH:/srv/www/qNotify
+export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
+
+case "$1" in
+  start)
+  cd /srv/www/qNotify; rm err.log 2>/dev/null; node app.js >>qNotify.log 2>err.log &
+  sleep 0.5
+  if [ -s err.log ]; then { 
+	echo "qNotify failed to start: "; cat err.log; rm err.log
+  }
+  else {
+	echo -e "\nqNotify started successfully with pid: " `pgrep node`"\n"
+  }
+  fi
+  ;;
+status)
+  pid=`pgrep node`
+  if [ -n "$pid" ]; then { 
+	echo -e "\nqNotify ("`pgrep node`")"
+	netstat -ltp | grep node
+	echo ""
+  }
+  else {
+	echo -e "\nqNotify is not running...\n"
+  }
+ fi
+;;
+log)tailf /srv/www/qNotify/qNotify.log
+;;
+users) echo -e "\nCurrent users: " `grep userList /srv/www/qNotify/qNotify.log | tail -1 | cut -d ':' -f5-` "\n"
+;;
+stop)
+  cd /srv/www/qNotify; kill -INT `pgrep node` 2>/dev/null
+  if [ $? -eq 0 ]; then echo -e "\nqNotify has been stopped.\n"
+  	else echo -e "\nqNotify isn't running.\n"
+  fi
+  ;;
+*)
+  echo "Usage: /etc/init.d/nodeup {start|stop}"
+  exit 1
+  ;;
+esac
+
+exit 0
