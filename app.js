@@ -1,24 +1,21 @@
-/*
-	Dependencies.
-*/
-var express = require('express');
-var fs = require('fs');
-var addNotify = require("./njs/addNotify");
-var removeNotify = require('./njs/removeNotify');
-var setops = require('setops');
-var logIt = require('./njs/logIt');
-var scheduler = require('node-schedule');
-var exec = require('child_process').exec;
+var express = require('express'),
+	fs = require('fs'),
+	addNotify = require("./njs/addNotify"),
+	removeNotify = require('./njs/removeNotify'),
+	setops = require('setops'),
+	logIt = require('./njs/logIt'),
+	scheduler = require('node-schedule'),
+	exec = require('child_process').exec,
+	logme = require('logme'),
+	config = require('./config.json');
 
 app = express();
 STATIC_DIR = __dirname+'/public';
 
 var options = {
-  key: fs.readFileSync('./ssl/privatekey.pem'),
-  cert: fs.readFileSync('./ssl/certificate.pem')
+  key: fs.readFileSync(config.privateKey),
+  cert: fs.readFileSync(config.certificate)
 };
-
-serverhttps = require('https').createServer(options, app);
 	
 	var userList = [];
 
@@ -67,15 +64,22 @@ process.on( 'SIGINT', function() {
   process.exit()
 });
 
-// Redirect http (80) to https (443)
+// Listen on http:80
 http = express();
-http.get('*',function(req,res){  
-    res.redirect('https://tharris7.lab.novell.com'+req.url)
+http.listen(config.httpPort, function() {
+	logme.info('qNotify is listening via http on ' + this.address().address + ':' + this.address().port + ' and redirecting to port ' + config.httpsPort);
 });
- http.listen(80);
 
-serverhttps.listen(443);
-console.log(new Date()+' Express server is listening securely on port ' + '443');
+// Redirect from http:80 --> https:443
+http.get('*',function(req,res){  
+    res.redirect('https://' + req.headers.host + req.url)
+});
+
+// Listen on https:443
+serverhttps = require('https').createServer(options, app);
+serverhttps.listen(config.httpsPort, function() {
+	logme.info('qNotify is listening securely on ' + this.address().address + ':' + this.address().port);
+});
 
 scheduler.scheduleJob({hour: 21, minute: 0}, function(){
     exec('qmon -S EmailAddress=null', function(err, stdout, stderr) {

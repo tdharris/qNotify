@@ -10,6 +10,8 @@
     "setops": "*",
     "crypto": "*",
     "mongoose": "~3.6.18",
-    "node-schedule": "~0.1.9"
+    "node-schedule": "~0.1.9",
+    "forever-monitor": "~1.2.3",
+    "logme": "~0.4.0"
   }
 }
