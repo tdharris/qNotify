@@ -36,10 +36,10 @@ export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
 
 case "$1" in
   start)
-  cd /srv/www/qNotify; rm err.log 2>/dev/null; node app.js >>qNotify.log 2>err.log &
+  cd /srv/www/qNotify; npm start &
   sleep 0.5
   if [ -s err.log ]; then { 
-	echo "qNotify failed to start: "; cat err.log; rm err.log
+	echo "qNotify failed to start: ";
   }
   else {
 	echo -e "\nqNotify started successfully with pid: " `pgrep node`"\n"
@@ -58,9 +58,9 @@ status)
   }
  fi
 ;;
-log)tailf /srv/www/qNotify/qNotify.log
+log)tailf /srv/www/qNotify/logs/app.log 
 ;;
-users) echo -e "\nCurrent users: " `grep userList /srv/www/qNotify/qNotify.log | tail -1 | cut -d ':' -f5-` "\n"
+users) echo -e "\nCurrent users: " `grep userList /srv/www/qNotify/logs/app.log | tail -1 | cut -d ':' -f5-` "\n"
 ;;
 stop)
   cd /srv/www/qNotify; kill -INT `pgrep node` 2>/dev/null
@@ -69,7 +69,7 @@ stop)
   fi
   ;;
 *)
-  echo "Usage: /etc/init.d/nodeup {start|stop}"
+  echo "Usage: /etc/init.d/nodeup {start|stop|status|log|users}"
   exit 1
   ;;
 esac
