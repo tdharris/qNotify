@@ -65,15 +65,19 @@ process.on( 'SIGINT', function() {
 });
 
 // Listen on http:80
-http = express();
-http.listen(config.httpPort, function() {
-	logme.info('qNotify is listening via http on ' + this.address().address + ':' + this.address().port + ' and redirecting to port ' + config.httpsPort);
-});
+if (config.listenHttp) {
 
-// Redirect from http:80 --> https:443
-http.get('*',function(req,res){  
-    res.redirect('https://' + req.headers.host + req.url)
-});
+	http = express();
+	http.listen(config.httpPort, function() {
+		logme.info('qNotify is listening via http on ' + this.address().address + ':' + this.address().port + ' and redirecting to port ' + config.httpsPort);
+	});
+
+	// Redirect from http:80 --> https:443
+	http.get('*',function(req,res){  
+	    res.redirect('https://' + req.headers.host + req.url)
+	});
+	
+}
 
 // Listen on https:443
 serverhttps = require('https').createServer(options, app);
