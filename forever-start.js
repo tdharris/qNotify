@@ -59,7 +59,7 @@ fs.readFile('/etc/logrotate.d/qNotify', 'utf8', function(err,data){
 var child = new(forever.Monitor)('app.js', {
     max: 3,
     silent: false,
-    options: [],
+    'append': true,
     'logFile': config.logDirectory + '/forever.log', // Path to log output from forever process (when daemonized)
     'outFile': config.logDirectory + '/app.log', // Path to log output from child stdout
     'errFile': config.logDirectory + '/err.log' // Path to log output from child stderr
