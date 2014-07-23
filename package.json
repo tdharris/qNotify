@@ -1,9 +1,10 @@
 {
-  "name": "qmon-notifies",
+  "name": "qnotify",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node forever-start.js"
+    "start": "node startup.js start",
+    "stop": "node startup.js stop"
   },
   "dependencies": {
     "express": "3.3.4",
@@ -12,6 +13,7 @@
     "mongoose": "~3.6.18",
     "node-schedule": "~0.1.9",
     "forever-monitor": "~1.2.3",
-    "logme": "~0.4.0"
+    "logme": "~0.4.0",
+    "start-stop-daemon": "~0.1.0"
   }
 }
