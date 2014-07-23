@@ -1,39 +1,42 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="qNotify : receive qmon emails and text notifications." />
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>qNotify by tdharris</title>
+    <title>qNotify</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
-        <h1>qNotify</h1>
-        <h2>receive qmon emails and text notifications.</h2>
-        <a href="https://github.com/tdharris/qNotify" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <p>qNotify is a single-page sign-in webapp permitting Novell engineers to receive qmon texts and email notifications for their appropriate queues. It has been designed to work in parallel with a configured &amp; running instance of qmon. </p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/tdharris/qNotify">View on GitHub</a>
+
+          <h1 id="project_title">qNotify</h1>
+          <h2 id="project_tagline">receive qmon emails and text notifications.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/tdharris/qNotify/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/tdharris/qNotify/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>qNotify is a single-page sign-in webapp permitting Novell engineers to receive qmon texts and email notifications for their appropriate queues. It has been designed to work in parallel with a configured &amp; running instance of qmon. </p>
 
 <p>qNotify is a web-application that is built on <a href="http://nodejs.org/">Node.js</a>, which is a platform built on Chrome's JavaScript runtime for building fast, scalable network applications. I used nodejs and a module called <a href="http://expressjs.com/">Express.js</a> instead of dealing with apache, tomcat, etc. Suffice it to say, nodejs is taking over enterprise web-development for good reasons.</p>
 
-<h3>
-<a name="qnotify-dependencies" class="anchor" href="#qnotify-dependencies"><span class="octicon octicon-link"></span></a>qNotify dependencies</h3>
+<h1>
+<a name="qnotify-dependencies" class="anchor" href="#qnotify-dependencies"><span class="octicon octicon-link"></span></a>qNotify dependencies</h1>
 
 <p>I have qNotify installed on a SLES 11 SP3 server with the following dependencies:</p>
 
@@ -44,7 +47,9 @@
 <li>npm (package manager for nodejs)<br><em>Note: Although I don't anticipate any dependency issues, if there are any problems, consider installing the SLES Development Tools/Kit.</em>
 <br>
 </li>
-</ul><p><strong>Install Dependencies</strong>:<br></p>
+</ul><h2>
+<a name="install-dependencies" class="anchor" href="#install-dependencies"><span class="octicon octicon-link"></span></a>Install Dependencies:<br>
+</h2>
 
 <ol>
 <li><p>Install &amp; configure <strong>qmon</strong><br>
@@ -76,8 +81,8 @@ zypper in nodejs nodejs-devel</pre>
 
 <pre>curl -L https://npmjs.org/install.sh | sh</pre>
 </li>
-</ol><h3>
-<a name="install-qnotify" class="anchor" href="#install-qnotify"><span class="octicon octicon-link"></span></a>Install qNotify:</h3>
+</ol><h2>
+<a name="install-qnotify" class="anchor" href="#install-qnotify"><span class="octicon octicon-link"></span></a>Install qNotify:</h2>
 
 <ol>
 <li>Clone the qNotify repository using the git clone command:
@@ -92,8 +97,8 @@ npm install</pre>
 <pre>cd rc
 ./make-rc-sles.sh</pre>
 </li>
-</ol><h3>
-<a name="configure-qnotify" class="anchor" href="#configure-qnotify"><span class="octicon octicon-link"></span></a>Configure qNotify:</h3>
+</ol><h2>
+<a name="configure-qnotify" class="anchor" href="#configure-qnotify"><span class="octicon octicon-link"></span></a>Configure qNotify:</h2>
 
 <ul>
 <li>In the qNotify directory, there is a config.json file:
@@ -107,8 +112,8 @@ npm install</pre>
 }</pre>
 <em>Note: Set listenHttp to false if wallboard is being run on the server (Apache listening on http:80). Otherwise, stick with the defaults.</em>
 </li>
-</ul><h3>
-<a name="run-qnotify" class="anchor" href="#run-qnotify"><span class="octicon octicon-link"></span></a>Run qNotify</h3>
+</ul><h2>
+<a name="run-qnotify" class="anchor" href="#run-qnotify"><span class="octicon octicon-link"></span></a>Run qNotify</h2>
 
 <ul>
 <li>From a terminal window: 
@@ -118,25 +123,18 @@ npm install</pre>
 <pre>npm start</pre>
 </li>
 </ul>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/tdharris/qNotify/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/tdharris/qNotify/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/tdharris/qNotify"></a> is maintained by <a href="https://github.com/tdharris">tdharris</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
     </div>
 
-  
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">qNotify maintained by <a href="https://github.com/tdharris">tdharris</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
   </body>
 </html>
