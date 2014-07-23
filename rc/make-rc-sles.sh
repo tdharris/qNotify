@@ -1,4 +1,4 @@
 #!/bin/bash
-cp notify /etc/init.d
-ln -s /etc/init.d/notify /sbin/rcnotify
+cp ./rc/qnotify /etc/init.d
+ln -s /etc/init.d/qnotify /sbin/rcqnotify
 exit 0
